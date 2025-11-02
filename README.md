@@ -73,11 +73,9 @@ For more details, see [backend/README.md](backend/README.md)
    npm install
    ```
 
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key (if needed)
-
-3. Run the app:
+2. Run the app:
    ```bash
    npm run dev
    ```
 
-View your app in AI Studio: https://ai.studio/apps/drive/1kJKG7TCNO4UK9in0r70Fizk5rO1GaEor
+The frontend will be available at `http://localhost:5173`

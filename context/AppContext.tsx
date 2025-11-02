@@ -161,6 +161,23 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   };
 
+  const createProject = async (title: string, description: string, requiredSkills: string[]) => {
+    if (!currentUser || !token) return false;
+    try {
+      const newProject = await api.createProject(title, description, requiredSkills, token);
+      setProjects(prevProjects => [...prevProjects, {
+        ...newProject,
+        creatorId: newProject.creator_id || newProject.creatorId,
+        requiredSkills: newProject.requiredSkills || [],
+      }]);
+      return true;
+    } catch (err) {
+      console.error('Failed to create project:', err);
+      setError('Failed to create project');
+      return false;
+    }
+  };
+
   const toggleAvailability = async () => {
     if (!currentUser) return;
     try {
@@ -234,6 +251,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     findUserById,
     findProjectById,
     joinProject,
+    createProject,
     toggleAvailability,
     updateSkillSwapStatus,
     proposeSkillSwap,
