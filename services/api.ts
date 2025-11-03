@@ -47,7 +47,10 @@ export async function register(name: string, email: string, password: string, sk
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email, password, skills, bio }),
   });
-  if (!response.ok) throw new Error('Registration failed');
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ error: 'Registration failed' }));
+    throw new Error(errorData.error || `Registration failed: ${response.status}`);
+  }
   return await response.json();
 }
 

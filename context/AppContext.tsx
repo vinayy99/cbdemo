@@ -114,6 +114,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const signup = async (newUser: Omit<User, 'id' | 'avatar' | 'available'>) => {
     try {
       setLoading(true);
+      setError(null); // Clear previous errors
       const result = await api.register(
         newUser.name,
         newUser.email,
@@ -128,7 +129,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       await fetchSkillSwaps();
       return true;
     } catch (err: any) {
-      setError(err.message || 'Signup failed');
+      // Extract the actual error message from the API response
+      const errorMessage = err.message || 'Signup failed';
+      setError(errorMessage);
+      console.error('Signup error:', err);
       return false;
     } finally {
       setLoading(false);

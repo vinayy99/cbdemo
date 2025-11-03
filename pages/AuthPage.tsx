@@ -42,7 +42,11 @@ const AuthPage: React.FC = () => {
         });
 
         if(!success) {
-            setError('Email already in use.');
+            // Error message is already set by the context
+            // Keep the existing error or show a default
+            if (!error) {
+                setError('Signup failed. Please try again.');
+            }
         } else {
             navigate('/dashboard');
         }
@@ -80,7 +84,15 @@ const AuthPage: React.FC = () => {
 
         <p className="text-center text-sm text-gray-600 mt-6">
           {isLogin ? "Don't have an account?" : "Already have an account?"}
-          <button onClick={() => {setIsLogin(!isLogin); setError('');}} className="font-semibold text-primary hover:underline ml-1">
+          <button 
+            type="button"
+            onClick={() => {
+              setIsLogin(!isLogin); 
+              setError('');
+              setFormData({ name: '', email: '', password: '', skills: '', bio: '' });
+            }} 
+            className="font-semibold text-primary hover:underline ml-1"
+          >
             {isLogin ? 'Sign Up' : 'Login'}
           </button>
         </p>
